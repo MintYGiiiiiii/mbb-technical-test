@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- refresh according to monitorInterval (in secs) -->
+<Configuration monitorInterval="30">
+	<Appenders>
+		<RollingFile name="RollingFile" fileName="maybankApp.log"
+			filePattern="tspTester-%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout pattern="%d [%-6p] %C{3}.%M(Line:%L) - %m%n" charset="UTF-8" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<!-- max file size -->
+				<SizeBasedTriggeringPolicy size="10MB" />
+			</Policies>
+		</RollingFile>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d - %m%n" charset="UTF-8" />
+		</Console>
+	</Appenders>
+	<Loggers>
+		<Logger name="com.main" level="INFO" additivity="true">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="org.apache.http" level="WARN" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>	
+		<Logger name="org.springframework" level="INFO" additivity="false">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="RollingFile" />
+		</Logger>
+		
+		<Root level="DEBUG">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="RollingFile" />
+		</Root>
+	</Loggers>
+</Configuration>
